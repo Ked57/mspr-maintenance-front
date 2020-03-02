@@ -18,7 +18,7 @@ type AsyncUploadStateMachine = {
   message?: string;
 };
 
-type AsyncUploadLauncher = (file: any) => void;
+export type AsyncUploadLauncher = (file: any) => void;
 
 export const isIdle = (
   asyncUploadStatus: AsyncUploadStatus
@@ -43,12 +43,20 @@ export const useAsyncUpload = (
   return [
     state,
     async (file: any) => {
+      if(!file) {
+        setState({status: "error", message: "No file provided"})
+        return;
+      }else if(file.type !== "text/csv") {
+        setState({status: "error", message: "Wrong file extension provided"})
+        return;
+      }
       setState({
         status: "pending"
       });
       const [result, err] = await of(fetch(url, { ...options, body: file }));
       if (err) {
         setState({ status: "error", message: err.message });
+        return;
       }
       if (result.status !== 200) {
         setState({ status: "error", message: result.statusText });
