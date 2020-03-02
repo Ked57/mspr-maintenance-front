@@ -1,23 +1,44 @@
 import * as React from "react";
+import {
+  useAsyncUpload,
+  isPending,
+  isError,
+  isSuccess
+} from "./util/async-upload";
+import "./App.css";
 
 export default () => {
   const file = React.createRef();
-  const uploadFile = async file => {
-    const result = await fetch("http://localhost/anything", {
-      method: "POST",
-      body: file
-    });
-    console.log("result", result);
-  };
+  const [state, launcher] = useAsyncUpload("http://localhost/anything", {
+    method: "POST"
+  });
+  console.log("value", state.value);
+  if (isPending(state.status)) {
+    return <p>Request is pending</p>;
+  }
+  if (isError(state.status)) {
+    return (
+      <>
+        <h1>Error</h1>
+        <p>{state.message}</p>
+      </>
+    );
+  }
+  if (isSuccess(state.status)) {
+    return (
+      <>
+        <h1>Success !</h1>
+      </>
+    );
+  }
   return (
     <>
       <h1>File upload</h1>
       <input
         type="file"
         name="file"
-        label="upload csv file"
-        ref={file}
-        onChange={() => uploadFile(file.current.files[0])}
+        ref={file as any}
+        onChange={() => launcher((file.current as any).files[0])}
       />
     </>
   );
