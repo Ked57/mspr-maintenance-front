@@ -13,33 +13,60 @@ export default () => {
     method: "POST"
   });
   console.log("value", state.value);
-  if (isPending(state.status)) {
-    return <p>Request is pending</p>;
-  }
-  if (isError(state.status)) {
-    return (
-      <>
-        <h1>Error</h1>
-        <p>{state.message}</p>
-      </>
-    );
-  }
-  if (isSuccess(state.status)) {
-    return (
-      <>
-        <h1>Success !</h1>
-      </>
-    );
-  }
-  return (
+
+  const showIdle = () => (
     <>
-      <h1>File upload</h1>
-      <input
-        type="file"
-        name="file"
-        ref={file as any}
-        onChange={() => launcher((file.current as any).files[0])}
-      />
+      <div className="mb-4">
+        <label
+          className="block text-grey-darker text-sm font-bold mb-2"
+          htmlFor="username"
+        >
+          Upload your file
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
+          type="file"
+          name="file"
+          ref={file as any}
+        />
+      </div>
+      <div className="flex items-center justify-between">
+        <button
+          className="bg-blue hover:bg-blue-dark text-black shadow appearance-none border rounded font-bold py-2 px-4 rounded"
+          type="button"
+          onClick={() => launcher((file.current as any).files[0])}
+        >
+          Send
+        </button>
+      </div>
     </>
+  );
+
+  return (
+    <div>
+      <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+      {(() => {
+        if (isPending(state.status)) {
+          return <p>Request is pending</p>;
+        }
+        if (isError(state.status)) {
+          return (
+            <>
+              <h1>Error</h1>
+              <p>{state.message}</p>
+            </>
+          );
+        }
+        if (isSuccess(state.status)) {
+          return (
+            <>
+              <h1>Success !</h1>
+            </>
+          );
+        }
+        return showIdle();
+      })()}
+      </div>
+    </div>
   );
 };
