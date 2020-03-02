@@ -34,6 +34,7 @@ export const isError = (
 ): asyncUploadStatus is ErrorStatus => asyncUploadStatus === "error";
 
 export const useAsyncUpload = (
+  fetcher: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
   url: RequestInfo,
   options?: RequestInit
 ): [AsyncUploadStateMachine, AsyncUploadLauncher] => {
@@ -53,7 +54,7 @@ export const useAsyncUpload = (
       setState({
         status: "pending"
       });
-      const [result, err] = await of(fetch(url, { ...options, body: file }));
+      const [result, err] = await of(fetcher(url, { ...options, body: file }));
       if (err) {
         setState({ status: "error", message: err.message });
         return;

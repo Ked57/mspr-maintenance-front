@@ -8,7 +8,6 @@ export const Idle = ({
   file: any;
   launcher: AsyncUploadLauncher;
 }) => {
-    console.log("file", file);
   return (
     <>
       <div className="mb-4">

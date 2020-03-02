@@ -10,10 +10,9 @@ import { Idle } from "./components/Idle";
 
 export default () => {
   const file = React.createRef();
-  const [state, launcher] = useAsyncUpload("http://localhost/anything", {
+  const [state, launcher] = useAsyncUpload(fetch, "http://localhost/anything", {
     method: "POST"
   });
-  console.log("value", state.value);
 
   return (
     <div>
