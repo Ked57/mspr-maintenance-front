@@ -1,5 +1,5 @@
 import test from "ava";
-import {File} from "file-api";
+import { File } from "file-api";
 import { renderHook } from "@testing-library/react-hooks";
 import { useAsyncUpload } from "../src/util/async-upload";
 
@@ -13,7 +13,7 @@ const mockFetcher = (
 const mockFile = new File({
   path: "example.csv",
   type: "text/csv"
-})
+});
 
 test("The state machine is created with an idle status", async t => {
   const { result } = renderHook(() => useAsyncUpload(mockFetcher, "", {}));
@@ -25,7 +25,8 @@ test("The state machine is created with an idle status", async t => {
 
 test("The state machine goes to pending status once the request is started", async t => {
   const { result } = renderHook(() => useAsyncUpload(mockFetcher, "", {}));
-  result.current[1](mockFile);
+  const [state, launcher] = result.current;
+  launcher(mockFile);
   t.assert(
     result.current[0].status === "pending",
     `Expected state machine status: "pending", current state machine status: "${result.current[0].status}", message: ${result.current[0].message}`

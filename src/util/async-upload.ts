@@ -59,7 +59,7 @@ export const useAsyncUpload = (
         setState({ status: "error", message: err.message });
         return;
       }
-      if (result.status !== 200) {
+      if (result.status !== 200 || result.status !== 201) {
         setState({ status: "error", message: result.statusText });
       } else {
         setState({

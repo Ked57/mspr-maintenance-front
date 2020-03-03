@@ -27,6 +27,7 @@ export const Idle = ({
       <div className="flex items-center justify-between">
         <button
           className="bg-blue hover:bg-blue-dark text-black shadow appearance-none border rounded font-bold py-2 px-4 rounded"
+          id="submit-btn"
           type="button"
           onClick={() => launcher((file.current as any).files[0])}
         >
