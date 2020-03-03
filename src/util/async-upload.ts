@@ -47,18 +47,23 @@ export const useAsyncUpload = (
       if (!file) {
         setState({ status: "error", message: "No file provided" });
         return;
-      } else if (file.type !== "text/csv") {
+      } else if (
+        file.type !== "text/csv" &&
+        file.type !== "application/vnd.ms-excel"
+      ) {
         setState({ status: "error", message: "Wrong file extension provided" });
         return;
       }
       setState({
         status: "pending"
       });
+      const formData = new FormData();
+      formData.append("file", file);
       const [result, err] = await of(
         fetcher(url, {
           ...options,
           headers: { Authorization: `Bearer ${key}` },
-          body: file
+          body: formData
         })
       );
       if (err) {
@@ -68,8 +73,7 @@ export const useAsyncUpload = (
       if (result.status === 200 || result.status === 201) {
         setState({
           status: "success",
-          message: result.statusText,
-          value: await result.json()
+          message: result.statusText
         });
         return;
       }

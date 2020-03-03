@@ -1,6 +1,6 @@
 kind: pipeline
 type: kubernetes
-name: default
+name: general
 
 steps:
   - name: install_dependencies
@@ -12,14 +12,10 @@ steps:
     commands:
       - npm run prettier:check
     depends_on: [install_dependencies]
-  - name: test_unit
-    image: node:12
-    commands:
-      - npm run test:unit
-    depends_on: [install_dependencies]
   - name: test_e2e
-    image: cypress/base:12
+    image: cypress/base:12.1.0
     commands:
+      - npm run cypress:install
       - npm run test:e2e:ci
     depends_on: [install_dependencies]
   - name: build
@@ -27,3 +23,17 @@ steps:
     commands:
       - npm run build
     depends_on: [install_dependencies]
+  - name: deploy
+    image: caprover/cli-caprover:latest
+    commands:
+      - npx caprover deploy -h $CAPROVER_DOMAIN -p $CAPROVER_PASSWORD -b ${DRONE_BRANCH} -a $CAPROVER_APPNAME
+    environment:
+      CAPROVER_DOMAIN:
+        from_secret: CAPROVER_DOMAIN
+      CAPROVER_APPNAME:
+        from_secret: CAPROVER_APPNAME
+      CAPROVER_PASSWORD:
+        from_secret: CAPROVER_PASSWORD
+    depends_on: [format, test_unit, test_e2e, build]
+    when:
+      event: tag
