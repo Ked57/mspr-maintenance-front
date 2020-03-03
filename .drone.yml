@@ -20,6 +20,7 @@ steps:
   - name: test_e2e
     image: cypress/base:12.1.0
     commands:
+      - cypress install
       - npm run test:e2e:ci
     depends_on: [install_dependencies]
   - name: build
