@@ -44,14 +44,15 @@ export const useAsyncUpload = (
   return [
     state,
     async (file: any, key: string) => {
-      console.log("file type", file.type);
       if (!file) {
         setState({ status: "error", message: "No file provided" });
         return;
       } else if (file.type !== "text/csv") {
         setState({ status: "error", message: "Wrong file extension provided" });
+        console.log("file type", file.type);
         return;
       }
+      console.log("file type", file.type);
       setState({
         status: "pending"
       });
