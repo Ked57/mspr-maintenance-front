@@ -27,8 +27,10 @@ test("The state machine goes to pending status once the request is started", asy
   const { result } = renderHook(() => useAsyncUpload(mockFetcher, "", {}));
   const [state, launcher] = result.current;
   launcher(mockFile, "");
+  const status = result.current[0].status;
+  await result.current[0].value
   t.assert(
-    result.current[0].status === "pending",
+    status === "pending",
     `Expected state machine status: "pending", current state machine status: "${result.current[0].status}", message: ${result.current[0].message}`
   );
 });
