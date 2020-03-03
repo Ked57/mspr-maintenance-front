@@ -48,4 +48,4 @@ steps:
 depends_on: [general]
 when:
   event:
-      - tag
+    - tag
