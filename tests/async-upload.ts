@@ -8,7 +8,7 @@ const mockFetcher = (
   init?: RequestInit
 ): Promise<Response> =>
   new Promise<Response>(resolve => {
-    setTimeout(() => resolve(new Response()), 100);
+    setTimeout(() => resolve(new Response()), 10000);
   });
 const mockFile = new File({
   path: "example.csv",

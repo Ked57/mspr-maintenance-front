@@ -49,3 +49,5 @@ depends_on: [general]
 when:
   event:
     - tag
+  branch:
+    - master
