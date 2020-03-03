@@ -47,5 +47,4 @@ steps:
         from_secret: CAPROVER_PASSWORD
 depends_on: [general]
 when:
-  ref:
-    - refs/tags/v-*
+  event: tag
