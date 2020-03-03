@@ -12,11 +12,6 @@ steps:
     commands:
       - npm run prettier:check
     depends_on: [install_dependencies]
-  - name: test_unit
-    image: node:12
-    commands:
-      - npm run test:unit
-    depends_on: [install_dependencies]
   - name: test_e2e
     image: cypress/base:12.1.0
     commands:
