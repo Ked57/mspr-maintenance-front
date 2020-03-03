@@ -18,7 +18,7 @@ type AsyncUploadStateMachine = {
   message?: string;
 };
 
-export type AsyncUploadLauncher = (file: any) => void;
+export type AsyncUploadLauncher = (file: any, key: string) => void;
 
 export const isIdle = (
   asyncUploadStatus: AsyncUploadStatus
@@ -43,31 +43,37 @@ export const useAsyncUpload = (
   });
   return [
     state,
-    async (file: any) => {
-      if(!file) {
-        setState({status: "error", message: "No file provided"})
+    async (file: any, key: string) => {
+      if (!file) {
+        setState({ status: "error", message: "No file provided" });
         return;
-      }else if(file.type !== "text/csv") {
-        setState({status: "error", message: "Wrong file extension provided"})
+      } else if (file.type !== "text/csv") {
+        setState({ status: "error", message: "Wrong file extension provided" });
         return;
       }
       setState({
         status: "pending"
       });
-      const [result, err] = await of(fetcher(url, { ...options, body: file }));
+      const [result, err] = await of(
+        fetcher(url, {
+          ...options,
+          headers: { Authorization: `Bearer ${key}` },
+          body: file
+        })
+      );
       if (err) {
         setState({ status: "error", message: err.message });
         return;
       }
-      if (result.status !== 200 || result.status !== 201) {
-        setState({ status: "error", message: result.statusText });
-      } else {
+      if (result.status === 200 || result.status === 201) {
         setState({
           status: "success",
           message: result.statusText,
           value: await result.json()
         });
+        return;
       }
+      setState({ status: "error", message: result.statusText });
     }
   ];
 };
