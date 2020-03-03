@@ -47,7 +47,5 @@ steps:
         from_secret: CAPROVER_PASSWORD
 depends_on: [general]
 when:
-  # event:
-  #     - tag
-  branch:
-    - CI-fix
+  event:
+      - tag
