@@ -47,7 +47,10 @@ export const useAsyncUpload = (
       if (!file) {
         setState({ status: "error", message: "No file provided" });
         return;
-      } else if (file.type !== "text/csv" && file.type !== "application/vnd.ms-excel") {
+      } else if (
+        file.type !== "text/csv" &&
+        file.type !== "application/vnd.ms-excel"
+      ) {
         setState({ status: "error", message: "Wrong file extension provided" });
         return;
       }
