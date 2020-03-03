@@ -28,7 +28,7 @@ test("The state machine goes to pending status once the request is started", asy
   const [state, launcher] = result.current;
   launcher(mockFile, "");
   const status = result.current[0].status;
-  await result.current[0].value
+  await result.current[0].value;
   t.assert(
     status === "pending",
     `Expected state machine status: "pending", current state machine status: "${result.current[0].status}", message: ${result.current[0].message}`
