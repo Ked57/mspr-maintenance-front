@@ -57,11 +57,13 @@ export const useAsyncUpload = (
       setState({
         status: "pending"
       });
+      const formData = new FormData();
+      formData.append("file", file);
       const [result, err] = await of(
         fetcher(url, {
           ...options,
           headers: { Authorization: `Bearer ${key}` },
-          body: file
+          body: formData
         })
       );
       if (err) {
