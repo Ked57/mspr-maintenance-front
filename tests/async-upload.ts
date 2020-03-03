@@ -26,7 +26,7 @@ test("The state machine is created with an idle status", async t => {
 test("The state machine goes to pending status once the request is started", async t => {
   const { result } = renderHook(() => useAsyncUpload(mockFetcher, "", {}));
   const [state, launcher] = result.current;
-  launcher(mockFile);
+  launcher(mockFile, "");
   t.assert(
     result.current[0].status === "pending",
     `Expected state machine status: "pending", current state machine status: "${result.current[0].status}", message: ${result.current[0].message}`
