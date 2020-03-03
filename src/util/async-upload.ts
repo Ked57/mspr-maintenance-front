@@ -73,8 +73,7 @@ export const useAsyncUpload = (
       if (result.status === 200 || result.status === 201) {
         setState({
           status: "success",
-          message: result.statusText,
-          value: await result.json()
+          message: result.statusText
         });
         return;
       }
