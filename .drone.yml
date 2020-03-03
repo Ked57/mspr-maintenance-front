@@ -34,6 +34,6 @@ steps:
         from_secret: CAPROVER_APPNAME
       CAPROVER_PASSWORD:
         from_secret: CAPROVER_PASSWORD
-    depends_on: [format, test_unit, test_e2e, build]
+    depends_on: [format, test_e2e, build]
     when:
       event: tag
