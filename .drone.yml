@@ -28,12 +28,6 @@ steps:
     commands:
       - npm run build
     depends_on: [install_dependencies]
----
-kind: pipeline
-type: kubernetes
-name: deploy
-
-steps:
   - name: deploy
     image: caprover/cli-caprover:latest
     commands:
@@ -45,6 +39,6 @@ steps:
         from_secret: CAPROVER_APPNAME
       CAPROVER_PASSWORD:
         from_secret: CAPROVER_PASSWORD
-depends_on: [general]
-when:
-  event: tag
+    depends_on: [format, test_unit, test_e2e, build]
+    when:
+      event: tag
