@@ -10,7 +10,7 @@ import { Idle } from "./components/Idle";
 
 export default () => {
   const file = React.createRef();
-  const [state, launcher] = useAsyncUpload(fetch, "http://localhost/anything", {
+  const [state, launcher] = useAsyncUpload(fetch, "https://mspr-maintenance.cluster.maelchauvet.fr/upload", {
     method: "POST"
   });
 
