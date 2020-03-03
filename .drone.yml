@@ -18,7 +18,7 @@ steps:
       - npm run test:unit
     depends_on: [install_dependencies]
   - name: test_e2e
-    image: cypress/base:12
+    image: cypress/base:12.1.0
     commands:
       - npm run test:e2e:ci
     depends_on: [install_dependencies]
