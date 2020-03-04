@@ -33,6 +33,13 @@ export const isError = (
   asyncUploadStatus: AsyncUploadStatus
 ): asyncUploadStatus is ErrorStatus => asyncUploadStatus === "error";
 
+const authorizedTypes = [
+  "text/csv",
+  "application/vnd.ms-excel",
+  "application/xml",
+  "text/xml"
+];
+
 export const useAsyncUpload = (
   fetcher: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
   url: RequestInfo,
@@ -44,12 +51,12 @@ export const useAsyncUpload = (
   return [
     state,
     async (file: any, key: string) => {
+      console.log("type", file.type, authorizedTypes.filter(type => type === file.type).length <= 0);
       if (!file) {
         setState({ status: "error", message: "No file provided" });
         return;
       } else if (
-        file.type !== "text/csv" &&
-        file.type !== "application/vnd.ms-excel"
+        authorizedTypes.filter(type => type === file.type).length <= 0
       ) {
         setState({ status: "error", message: "Wrong file extension provided" });
         return;
