@@ -51,11 +51,6 @@ export const useAsyncUpload = (
   return [
     state,
     async (file: any, key: string) => {
-      console.log(
-        "type",
-        file.type,
-        authorizedTypes.filter(type => type === file.type).length <= 0
-      );
       if (!file) {
         setState({ status: "error", message: "No file provided" });
         return;
