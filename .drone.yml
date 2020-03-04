@@ -26,7 +26,8 @@ steps:
   - name: deploy
     image: caprover/cli-caprover:latest
     commands:
-      - npx caprover deploy -h $CAPROVER_DOMAIN -p $CAPROVER_PASSWORD -b ${DRONE_TAG} -a $CAPROVER_APPNAME
+      - git checkout -b release-${DRONE_TAG}
+      - npx caprover deploy -h $CAPROVER_DOMAIN -p $CAPROVER_PASSWORD -b release-${DRONE_TAG} -a $CAPROVER_APPNAME
     environment:
       CAPROVER_DOMAIN:
         from_secret: CAPROVER_DOMAIN
